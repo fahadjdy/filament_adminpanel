@@ -18,6 +18,7 @@ class TestimonialResource extends Resource
     protected static ?string $pluralLabel = 'Testimonials';
     protected static ?string $modelLabel = 'Testimonial';
     protected static ?string $navigationGroup = 'Content';
+    protected static ?int $navigationSort = 3;
 
     // NOTE: use Filament\Forms\Form (aliased here as FormsForm)
     public static function form(FormsForm $form): FormsForm
