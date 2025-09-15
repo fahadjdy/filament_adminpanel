@@ -43,9 +43,11 @@ class InquiryResource extends Resource
                     ->dateTime('d M Y, H:i')
                     ->sortable(),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([])
             ->actions([
                 Tables\Actions\ViewAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ]);
     }
 
