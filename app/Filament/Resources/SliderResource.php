@@ -69,6 +69,7 @@ class SliderResource extends Resource
                     ]),
                 Tables\Columns\TextColumn::make('created_at')->dateTime(),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->options([

@@ -90,6 +90,7 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('stock'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime('d M Y'),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])

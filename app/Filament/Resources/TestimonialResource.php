@@ -67,6 +67,7 @@ class TestimonialResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->dateTime('d M Y, H:i'),
                 Tables\Columns\TextColumn::make('updated_at')->dateTime('d M Y, H:i'),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
