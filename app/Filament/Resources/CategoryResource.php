@@ -21,16 +21,25 @@ class CategoryResource extends Resource
         return $form->schema([
            Forms\Components\TextInput::make('name')
                 ->required()
-                ->maxLength(255)
+                ->maxLength(50)
+                ->hint('The category name, Max 50 characters')
                 ->live(onBlur: true) // auto update slug when leaving field
-                ->afterStateUpdated(fn (callable $set, $state) => $set('slug', \Str::slug($state))),
+                ->afterStateUpdated(function (callable $set, $state) {
+                    $clean = strip_tags($state);   // removes all HTML tags
+                    $set('name', $clean);
+                    $set('slug', \Str::slug($clean));
+                }),
 
             Forms\Components\TextInput::make('slug')
                 ->required()
                 ->unique(ignoreRecord: true)
                 ->maxLength(255),
 
-            Forms\Components\Textarea::make('content'),
+            Forms\Components\Textarea::make('content')
+            ->afterStateUpdated(function (callable $set, $state) {
+                $clean = strip_tags($state);   // removes all HTML tags
+                $set('content', $clean);
+            }),
 
             Forms\Components\Select::make('parent_id')
                 ->label('Parent Category')

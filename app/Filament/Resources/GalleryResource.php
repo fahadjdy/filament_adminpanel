@@ -22,7 +22,12 @@ class GalleryResource extends Resource
         return $form->schema([
             Forms\Components\TextInput::make('name')
                 ->required()
-                ->maxLength(255),
+                ->hint('A short descriptive name for the image, Max 50 characters')
+                ->maxLength(50)
+                ->afterStateUpdated(function (callable $set, $state) {
+                    $clean = strip_tags($state);   // removes all HTML tags
+                    $set('name', $clean);
+                }),
 
             Forms\Components\FileUpload::make('image') // single image only
                 ->label('Image')

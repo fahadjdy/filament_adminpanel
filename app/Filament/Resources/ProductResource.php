@@ -27,14 +27,24 @@ class ProductResource extends Resource
 
             Forms\Components\TextInput::make('name')
                 ->required()
+                ->hint('The product name, Max 50 characters')
+                ->maxLength(50)
                 ->live(onBlur: true)
-                ->afterStateUpdated(fn (callable $set, $state) => $set('slug', Str::slug($state))),
+                ->afterStateUpdated(function (callable $set, $state) {
+                    $clean = strip_tags($state);   // removes all HTML tags
+                    $set('name', $clean);
+                    $set('slug', \Str::slug($clean));
+                }),
 
             Forms\Components\TextInput::make('slug')
                 ->required()
                 ->unique(ignoreRecord: true),
 
-            Forms\Components\Textarea::make('description'),
+            Forms\Components\Textarea::make('description')
+            ->afterStateUpdated(function (callable $set, $state) {
+                $clean = strip_tags($state);   // removes all HTML tags
+                $set('description', $clean);
+            }),
 
             Forms\Components\TextInput::make('price')
                 ->numeric()

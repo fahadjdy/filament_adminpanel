@@ -26,13 +26,26 @@ class TestimonialResource extends Resource
         return $form->schema([
             Forms\Components\TextInput::make('name')
                 ->required()
-                ->maxLength(255),
+                ->maxLength(30)
+                ->afterStateUpdated(function (callable $set, $state) {
+                    $clean = strip_tags($state);   // removes all HTML tags
+                    $set('name', $clean);
+                }),
 
             Forms\Components\TextInput::make('designation')
-                ->maxLength(255),
+                ->maxLength(30)
+                ->afterStateUpdated(function (callable $set, $state) {
+                    $clean = strip_tags($state);   // removes all HTML tags
+                    $set('description', $clean);
+                }),
 
             Forms\Components\Textarea::make('content')
-                ->required(),
+                ->required()
+                ->maxLength(150)
+                ->afterStateUpdated(function (callable $set, $state) {
+                    $clean = strip_tags($state);   // removes all HTML tags
+                    $set('content', $clean);
+                }),
 
             Forms\Components\FileUpload::make('image')
                 ->directory('testimonials')
