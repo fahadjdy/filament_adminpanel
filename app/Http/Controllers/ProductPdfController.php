@@ -14,6 +14,7 @@ class ProductPdfController extends Controller
         $pdf = Pdf::loadView('pdf.products', compact('products'))
             ->setPaper('a4', 'portrait');
 
-        return $pdf->download('product_brochure.pdf');
+        // 👇 Stream will open in browser instead of download
+        return $pdf->stream('product_brochure.pdf');
     }
 }
