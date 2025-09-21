@@ -1,11 +1,11 @@
 <?php
+
 namespace App\Filament\Pages;
 
 use Filament\Forms;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Auth;
 use Filament\Notifications\Notification;
-
 
 class EditProfile extends Page implements Forms\Contracts\HasForms
 {
@@ -15,20 +15,21 @@ class EditProfile extends Page implements Forms\Contracts\HasForms
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static ?string $slug = 'my-profile';
 
-    public $name;
-    public $email;
-    public $contact;
-    public $city;
-    public $state;
-    public $location;
-    public $pincode;
-    public $about;
-    public $slogan;
-    public $company_image;
-    public $logo;
-    public $favicon;
-    public $latitude;
-    public $longitude;
+    // Initialize properties with default values to avoid Livewire null-type issues
+    public $name = '';
+    public $email = '';
+    public $contact = '';
+    public $city = '';
+    public $state = '';
+    public $location = '';
+    public $pincode = '';
+    public $about = '';
+    public $slogan = '';
+    public $company_image = null;
+    public $logo = null;
+    public $favicon = null;
+    public $latitude = '';
+    public $longitude = '';
 
     public function mount(): void
     {
@@ -39,7 +40,7 @@ class EditProfile extends Page implements Forms\Contracts\HasForms
         }
     }
 
-   protected function getFormSchema(): array
+    protected function getFormSchema(): array
     {
         return [
             Forms\Components\Section::make('Company Info')
@@ -63,12 +64,30 @@ class EditProfile extends Page implements Forms\Contracts\HasForms
 
             Forms\Components\Section::make('Branding')
                 ->schema([
-                    Forms\Components\FileUpload::make('company_image')
-                        ->directory('company')->image()->maxSize(2048),
+                   Forms\Components\FileUpload::make('company_image')
+                        ->directory('company')
+                        ->image()
+                        ->maxSize(2048)
+                        ->storeFiles()
+                        ->preserveFilenames()
+                        ->getUploadedFileNameForStorageUsing(fn ($file) => $file->getClientOriginalName()),
+
                     Forms\Components\FileUpload::make('logo')
-                        ->directory('company')->image()->maxSize(1024),
+                        ->directory('company')
+                        ->image()
+                        ->maxSize(1024)
+                        ->storeFiles()
+                        ->preserveFilenames()
+                        ->getUploadedFileNameForStorageUsing(fn ($file) => $file->getClientOriginalName()),
+
                     Forms\Components\FileUpload::make('favicon')
-                        ->directory('company')->image()->maxSize(512),
+                        ->directory('company')
+                        ->image()
+                        ->maxSize(512)
+                        ->storeFiles()
+                        ->preserveFilenames()
+                        ->getUploadedFileNameForStorageUsing(fn ($file) => $file->getClientOriginalName()),
+
                 ])
                 ->columns(3),
 
@@ -81,22 +100,22 @@ class EditProfile extends Page implements Forms\Contracts\HasForms
         ];
     }
 
-
-
     public function save(): void
     {
         $profile = Auth::user()->companyProfile;
 
+        $data = $this->form->getState();
+
         if ($profile) {
-            $profile->update($this->form->getState());
+            $profile->update($data);
         } else {
-            Auth::user()->companyProfile()->create($this->form->getState());
+            Auth::user()->companyProfile()->create($data);
         }
 
-       Notification::make()
-        ->title('Profile updated successfully!')
-        ->success()
-        ->send();
+        Notification::make()
+            ->title('Profile updated successfully!')
+            ->success()
+            ->send();
     }
 
     protected static string $view = 'filament.pages.edit-profile';
