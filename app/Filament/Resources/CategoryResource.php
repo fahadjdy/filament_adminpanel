@@ -32,6 +32,7 @@ class CategoryResource extends Resource
 
             Forms\Components\TextInput::make('slug')
                 ->required()
+                ->readOnly()
                 ->unique(ignoreRecord: true)
                 ->maxLength(255),
 
@@ -45,6 +46,7 @@ class CategoryResource extends Resource
                 ->label('Parent Category')
                 ->relationship('parent', 'name')
                 ->searchable()
+                ->preload()
                 ->nullable(),
 
             Forms\Components\FileUpload::make('images')

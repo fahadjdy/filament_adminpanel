@@ -16,29 +16,32 @@ class EditProfile extends Page implements Forms\Contracts\HasForms
     protected static ?string $slug = 'my-profile';
 
     // Initialize properties with default values to avoid Livewire null-type issues
-    public $name = '';
-    public $email = '';
-    public $contact = '';
-    public $city = '';
-    public $state = '';
-    public $location = '';
-    public $pincode = '';
-    public $about = '';
-    public $slogan = '';
+    public string $name = '';
+    public ?string $email = null;
+    public ?string $contact = null;
+    public ?string $city = null;
+    public ?string $state = null;
+    public ?string $location = null;
+    public ?string $pincode = null;
+    public ?string $about = null;
+    public ?string $slogan = null;
+    public ?string $latitude = null;
+    public ?string $longitude = null;
     public $company_image = null;
     public $logo = null;
     public $favicon = null;
-    public $latitude = '';
-    public $longitude = '';
 
-    public function mount(): void
+
+   public function mount(): void
     {
         $profile = Auth::user()->companyProfile;
 
         if ($profile) {
-            $this->fill($profile->toArray());
+            $this->form->fill($profile->toArray());
         }
     }
+
+    
 
     protected function getFormSchema(): array
     {

@@ -23,7 +23,8 @@ class ProductResource extends Resource
             Forms\Components\Select::make('category_id')
                 ->relationship('category', 'name')
                 ->required()
-                ->searchable(),
+                ->searchable()
+                ->preload(),
 
             Forms\Components\TextInput::make('name')
                 ->required()
@@ -38,20 +39,38 @@ class ProductResource extends Resource
 
             Forms\Components\TextInput::make('slug')
                 ->required()
+                ->readOnly()
                 ->unique(ignoreRecord: true),
 
-            Forms\Components\Textarea::make('description')
-            ->afterStateUpdated(function (callable $set, $state) {
-                $clean = strip_tags($state);   // removes all HTML tags
-                $set('description', $clean);
-            }),
+                // product code 
+            Forms\Components\TextInput::make('code')
+                ->required()
+                ->hint('The product code, Max 10 characters')
+                ->maxLength(10)
+                ->placeholder('Ex: ABC001')
+                ->live(onBlur: true)
+                ->afterStateUpdated(function (callable $set, $state) {
+                    $clean = strip_tags($state);   // removes all HTML tags
+                    $set('code', $clean);
+                }),
 
-            Forms\Components\TextInput::make('price')
-                ->numeric()
-                ->prefix('₹'),
+            Forms\Components\RichEditor::make('description')
+                ->label('Description')
+                ->toolbarButtons([
+                    'bold',
+                    'italic',
+                    'strike',
+                    'link',
+                    'orderedList',
+                    'bulletList',
+                    'blockquote',
+                    'codeBlock',
+                    'h2',
+                    'h3',
+                ])
+                ->columnSpanFull()
+                ->maxLength(5000),
 
-            Forms\Components\TextInput::make('stock')
-                ->numeric(),
 
             Forms\Components\FileUpload::make('images')
                 ->label('Product Images')
@@ -84,10 +103,9 @@ class ProductResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('slug')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('code')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('category.name')->label('Category')->sortable(),
                 Tables\Columns\ImageColumn::make('primary_image')->label('Primary'),
-                Tables\Columns\TextColumn::make('price')->money('inr'),
-                Tables\Columns\TextColumn::make('stock'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime('d M Y'),
             ])
             ->defaultSort('id', 'desc')
