@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('email')->nullable();
             $table->string('contact')->nullable();
+            $table->string('whatsapp')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('location')->nullable();

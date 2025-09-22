@@ -19,6 +19,7 @@ class EditProfile extends Page implements Forms\Contracts\HasForms
     public string $name = '';
     public ?string $email = null;
     public ?string $contact = null;
+    public ?string $whatsapp = null;
     public ?string $city = null;
     public ?string $state = null;
     public ?string $location = null;
@@ -57,7 +58,8 @@ class EditProfile extends Page implements Forms\Contracts\HasForms
             Forms\Components\Section::make('Contact Info')
                 ->schema([
                     Forms\Components\TextInput::make('email')->email(),
-                    Forms\Components\TextInput::make('contact')->maxLength(20),
+                    Forms\Components\TextInput::make('contact')->label('Contact Number')->maxLength(20),
+                    Forms\Components\TextInput::make('whatsapp')->label('WhatsApp Number')->maxLength(20),
                     Forms\Components\TextInput::make('city'),
                     Forms\Components\TextInput::make('state'),
                     Forms\Components\TextInput::make('location'),
