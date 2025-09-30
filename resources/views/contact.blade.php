@@ -1,5 +1,11 @@
 @extends('layout.base')
 
+@section('meta_description', '')
+@section('meta_keywords', '')
+@section('title')
+  Contact
+@endsection
+
 @section('content')
 
     

@@ -1,5 +1,13 @@
 @extends('layout.base')
 
+@section('meta_description', '')
+@section('meta_keywords', '')
+@section('title')
+    Home
+@endsection
+
+
+
 @section('content')
 
     <h1>Home Page</h1>
