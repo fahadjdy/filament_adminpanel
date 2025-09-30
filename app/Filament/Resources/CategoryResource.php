@@ -51,12 +51,12 @@ class CategoryResource extends Resource
 
             // Single image upload
            Forms\Components\FileUpload::make('image')
-    ->label('Category Image')
-    ->directory('categories')
-    ->image()
-    ->disk('public')   // <--- IMPORTANT
-    ->maxSize(2048)
-    ->helperText('Upload a single image for this category.'),
+                ->label('Category Image')
+                ->directory('categories')
+                ->image()
+                ->disk('public')   // <--- IMPORTANT
+                ->maxSize(2048)
+                ->helperText('Upload a single image for this category.'),
         ]);
     }
 
@@ -69,7 +69,7 @@ class CategoryResource extends Resource
                 ->rounded()
                 ->height(50)
                 ->width(50)
-                ->placeholder('/storage/default.png'),
+                ->placeholder('N/A'),
             Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
             Tables\Columns\TextColumn::make('slug')->sortable()->searchable(),
             Tables\Columns\TextColumn::make('created_at')->dateTime('d M Y, H:i'),

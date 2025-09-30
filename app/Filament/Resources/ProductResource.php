@@ -73,11 +73,15 @@ class ProductResource extends Resource
             // Single image upload
             Forms\Components\FileUpload::make('image')
                 ->label('Product Image')
-                ->directory('products')
+                ->directory(function (callable $get) {
+                    $categoryId = $get('category_id');
+                    return $categoryId ? "products/{$categoryId}" : 'products';
+                })
                 ->image()
-                ->disk('public') // ensure image is stored in public disk
+                ->disk('public') // ensure it is stored in public disk
                 ->maxSize(2048)
                 ->helperText('Upload a single image for this product.'),
+
         ]);
     }
 
