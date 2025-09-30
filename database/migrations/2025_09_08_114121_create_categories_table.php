@@ -9,24 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   public function up(): void
+    public function up(): void
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-             $table->string('slug')->unique();
+            $table->string('slug')->unique();
             $table->text('content')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable(); // self reference
-            $table->json('images')->nullable(); // multiple images stored as JSON
-            $table->string('primary_image')->nullable(); // primary image path
+            $table->string('image')->nullable(); // single image path
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
         });
-        
     }
-
 
     /**
      * Reverse the migrations.

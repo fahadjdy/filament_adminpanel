@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str; // <-- import Str
 
 class Category extends Model
 {
@@ -11,17 +12,12 @@ class Category extends Model
     protected $fillable = [
         'name',
         'content',
-         'slug',
+        'slug',
         'parent_id',
-        'images',
-        'primary_image',
+        'image', // single image
     ];
 
-    protected $casts = [
-        'images' => 'array',
-    ];
-
-     // Auto-generate slug
+    // Auto-generate slug
     protected static function boot()
     {
         parent::boot();
@@ -50,6 +46,4 @@ class Category extends Model
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
-
-
 }

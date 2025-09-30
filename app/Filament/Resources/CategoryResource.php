@@ -19,13 +19,13 @@ class CategoryResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-           Forms\Components\TextInput::make('name')
+            Forms\Components\TextInput::make('name')
                 ->required()
                 ->maxLength(50)
                 ->hint('The category name, Max 50 characters')
-                ->live(onBlur: true) // auto update slug when leaving field
+                ->live(onBlur: true)
                 ->afterStateUpdated(function (callable $set, $state) {
-                    $clean = strip_tags($state);   // removes all HTML tags
+                    $clean = strip_tags($state);
                     $set('name', $clean);
                     $set('slug', \Str::slug($clean));
                 }),
@@ -37,10 +37,10 @@ class CategoryResource extends Resource
                 ->maxLength(255),
 
             Forms\Components\Textarea::make('content')
-            ->afterStateUpdated(function (callable $set, $state) {
-                $clean = strip_tags($state);   // removes all HTML tags
-                $set('content', $clean);
-            }),
+                ->afterStateUpdated(function (callable $set, $state) {
+                    $clean = strip_tags($state);
+                    $set('content', $clean);
+                }),
 
             Forms\Components\Select::make('parent_id')
                 ->label('Parent Category')
@@ -49,41 +49,29 @@ class CategoryResource extends Resource
                 ->preload()
                 ->nullable(),
 
-            Forms\Components\FileUpload::make('images')
-                ->label('Images')
-                ->directory('categories')
-                ->multiple()
-                ->image()
-                ->reorderable()
-                ->maxFiles(5)
-                ->maxSize(2048),
-
-            Forms\Components\Select::make('primary_image')
-                ->label('Primary Image')
-                ->options(function (callable $get) {
-                    $images = $get('images');
-
-                    if (!is_array($images)) {
-                        return [];
-                    }
-
-                    return collect($images)
-                        ->filter(fn($img) => is_string($img)) // keep only strings
-                        ->mapWithKeys(fn($img) => [$img => basename($img)]);
-                })
-                ->nullable()
-                ->helperText('Choose one image as the primary image.')
-
+            // Single image upload
+           Forms\Components\FileUpload::make('image')
+    ->label('Category Image')
+    ->directory('categories')
+    ->image()
+    ->disk('public')   // <--- IMPORTANT
+    ->maxSize(2048)
+    ->helperText('Upload a single image for this category.'),
         ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table->columns([
+            Tables\Columns\ImageColumn::make('image')
+                ->label('Image')
+                ->disk('public')   // <--- same disk as upload
+                ->rounded()
+                ->height(50)
+                ->width(50)
+                ->placeholder('/storage/default.png'),
             Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
-            Tables\Columns\TextColumn::make('parent.name')->label('Parent'),
             Tables\Columns\TextColumn::make('slug')->sortable()->searchable(),
-            Tables\Columns\ImageColumn::make('primary_image')->label('Primary'),
             Tables\Columns\TextColumn::make('created_at')->dateTime('d M Y, H:i'),
             Tables\Columns\TextColumn::make('updated_at')->dateTime('d M Y, H:i'),
         ])

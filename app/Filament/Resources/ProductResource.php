@@ -32,9 +32,9 @@ class ProductResource extends Resource
                 ->maxLength(50)
                 ->live(onBlur: true)
                 ->afterStateUpdated(function (callable $set, $state) {
-                    $clean = strip_tags($state);   // removes all HTML tags
+                    $clean = strip_tags($state);
                     $set('name', $clean);
-                    $set('slug', \Str::slug($clean));
+                    $set('slug', Str::slug($clean));
                 }),
 
             Forms\Components\TextInput::make('slug')
@@ -42,7 +42,6 @@ class ProductResource extends Resource
                 ->readOnly()
                 ->unique(ignoreRecord: true),
 
-                // product code 
             Forms\Components\TextInput::make('code')
                 ->required()
                 ->hint('The product code, Max 10 characters')
@@ -50,7 +49,7 @@ class ProductResource extends Resource
                 ->placeholder('Ex: ABC001')
                 ->live(onBlur: true)
                 ->afterStateUpdated(function (callable $set, $state) {
-                    $clean = strip_tags($state);   // removes all HTML tags
+                    $clean = strip_tags($state);
                     $set('code', $clean);
                 }),
 
@@ -71,29 +70,14 @@ class ProductResource extends Resource
                 ->columnSpanFull()
                 ->maxLength(5000),
 
-
-            Forms\Components\FileUpload::make('images')
-                ->label('Product Images')
+            // Single image upload
+            Forms\Components\FileUpload::make('image')
+                ->label('Product Image')
                 ->directory('products')
-                ->multiple()
                 ->image()
-                ->reorderable()
-                ->maxFiles(6)
-                ->maxSize(2048),
-
-            Forms\Components\Select::make('primary_image')
-                ->label('Primary Image')
-                ->options(function (callable $get) {
-                    $images = $get('images');
-                    if (!is_array($images)) {
-                        return [];
-                    }
-                    return collect($images)
-                        ->filter(fn ($img) => is_string($img))
-                        ->mapWithKeys(fn ($img) => [$img => basename($img)]);
-                })
-                ->nullable()
-                ->helperText('Choose one image as the primary image.'),
+                ->disk('public') // ensure image is stored in public disk
+                ->maxSize(2048)
+                ->helperText('Upload a single image for this product.'),
         ]);
     }
 
@@ -105,7 +89,12 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('slug')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('code')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('category.name')->label('Category')->sortable(),
-                Tables\Columns\ImageColumn::make('primary_image')->label('Primary'),
+                Tables\Columns\ImageColumn::make('image') // single image column
+                    ->label('Image')
+                    ->disk('public')
+                    ->rounded()
+                    ->height(50)
+                    ->width(50),
                 Tables\Columns\TextColumn::make('created_at')->dateTime('d M Y'),
             ])
             ->defaultSort('id', 'desc')

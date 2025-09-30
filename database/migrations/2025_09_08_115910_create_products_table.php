@@ -16,15 +16,13 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->text('code')->unique()->nullable();
+            $table->string('code', 50)->unique()->nullable();
             $table->text('description')->nullable();
-            $table->json('images')->nullable();        // multiple images
-            $table->string('primary_image')->nullable(); // primary
+            $table->string('image')->nullable(); // single image
             $table->timestamps();
             $table->softDeletes();
         });
     }
-
 
     /**
      * Reverse the migrations.

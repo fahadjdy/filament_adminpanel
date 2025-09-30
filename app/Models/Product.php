@@ -15,12 +15,7 @@ class Product extends Model
         'slug',
         'code',
         'description',
-        'images',
-        'primary_image',
-    ];
-
-    protected $casts = [
-        'images' => 'array',
+        'image'
     ];
 
     protected static function boot()
