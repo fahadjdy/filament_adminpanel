@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-          $profile = CompanyProfile::first();
+        $profile = CompanyProfile::first();
         View::share('profile', $profile);
     }
 }

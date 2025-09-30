@@ -1,0 +1,4 @@
+
+<footer>
+    <h1>Footer section</h1>
+</footer>
