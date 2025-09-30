@@ -10,8 +10,6 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Facades\Filament;
-use Filament\Support\Colors\Color;
-use Filament\Navigation\NavigationItem;
 use Filament\Widgets;
 use Filament\Navigation\UserMenuItem;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -34,18 +32,27 @@ class AdminPanelProvider extends PanelProvider
             ->brandName($companyName)
             ->login()
             ->colors([
-                  'primary' => '#133e49ff',  
-                  'gray' => '#678acfff',
+                'primary' => '#133e49ff',
+                'gray'    => '#678acfff',
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(
+                in: app_path('Filament/Resources'),
+                for: 'App\\Filament\\Resources'
+            )
+            ->discoverPages(
+                in: app_path('Filament/Pages'),
+                for: 'App\\Filament\\Pages'
+            )
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(
+                in: app_path('Filament/Widgets'),
+                for: 'App\\Filament\\Widgets'
+            )
             ->widgets([
-                \App\Filament\Widgets\DashboardStats::class, // Dashboard Stats widget
-                \App\Filament\Widgets\LatestInquiries::class, // Latest Inquiries widget
+                \App\Filament\Widgets\DashboardStats::class,
+                \App\Filament\Widgets\LatestInquiries::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -66,24 +73,6 @@ class AdminPanelProvider extends PanelProvider
                     ->label('Visit Website')
                     ->url(config('app.url'), shouldOpenInNewTab: true)
                     ->icon('heroicon-o-globe-alt'),
-                'Profile' => UserMenuItem::make()
-                    ->label('Profile')
-                    ->url('admin/my-profile')
-                    ->icon('heroicon-o-user-circle'),
             ]);
     }
-
-    // public function boot(): void
-    // {
-    //     Filament::serving(function () {
-    //         Filament::registerNavigationItems([
-    //             NavigationItem::make('Visit Site')
-    //                 ->url(config('app.url'), shouldOpenInNewTab: true)
-    //                 ->icon('heroicon-o-globe-alt')
-    //                 ->group('Leads'), // keeps it in the top navbar
-    //         ]);
-    //     });
-    // }
-
-    
 }

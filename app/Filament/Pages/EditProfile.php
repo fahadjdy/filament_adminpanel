@@ -14,6 +14,8 @@ class EditProfile extends Page implements Forms\Contracts\HasForms
     protected static ?string $navigationLabel = 'My Profile';
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static ?string $slug = 'my-profile';
+    protected static ?int $navigationSort = 1;
+
 
     // Initialize properties with default values to avoid Livewire null-type issues
     public string $name = '';
