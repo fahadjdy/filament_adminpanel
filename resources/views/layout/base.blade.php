@@ -38,6 +38,9 @@
     <meta name="twitter:image" content="{{ asset('storage/'.$profile->og_image ?? '') }}">
 
 
+    <!-- Font Awesome Free -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
 </head>
 <body>
     @if(session('success'))
@@ -48,6 +51,33 @@
     
     @include('layout.header')
     @yield('content')
+    
+    <a href="https://api.whatsapp.com/send?phone=<?=$profile->whatsapp ?? '7203070468'?>&text=hello" class="float" target="_blank">
+        <i class="fab fa-whatsapp my-float"></i>
+    </a>
     @include('layout.footer')
+
+    <style>
+        /* whatsapp icon sticky  */
+
+.float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 3px #999;
+    z-index: 100;
+}
+
+.my-float {
+    margin-top: 16px;
+}
+    </style>
 </body>
 </html>

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\CompanyProfile;
+use App\Models\SocialMedia;
 use Illuminate\Support\Facades\View;
 
 
@@ -22,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $socialmed = SocialMedia::all();
+        View::share('socialmedia', $socialmed);
         $profile = CompanyProfile::first();
         View::share('profile', $profile);
     }
