@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->text('content')->nullable();
+            $table->string('meta_title', 70)->nullable();
+            $table->string('meta_description', 160)->nullable();
             $table->unsignedBigInteger('parent_id')->nullable(); // self reference
             $table->string('image')->nullable(); // single image path
             $table->timestamps();

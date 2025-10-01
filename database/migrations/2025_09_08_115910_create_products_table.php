@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('code', 50)->unique()->nullable();
             $table->text('description')->nullable();
+            $table->string('meta_title', 70)->nullable();
+            $table->string('meta_description', 160)->nullable();
             $table->string('image')->nullable(); // single image
             $table->timestamps();
             $table->softDeletes();

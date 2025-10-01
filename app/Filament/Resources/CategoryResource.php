@@ -42,6 +42,14 @@ class CategoryResource extends Resource
                     $set('content', $clean);
                 }),
 
+            Forms\Components\TextInput::make('meta_title')
+                ->maxLength(70)
+                ->label('Meta Title'),
+
+            Forms\Components\Textarea::make('meta_description')
+                ->maxLength(160)
+                ->label('Meta Description'),
+
             Forms\Components\Select::make('parent_id')
                 ->label('Parent Category')
                 ->relationship('parent', 'name')

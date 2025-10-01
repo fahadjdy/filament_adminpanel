@@ -16,8 +16,8 @@
     {{-- Meta Description --}}
     <meta name="description" content="@yield('meta_description', $profile->meta_description ?? '')">
 
-    {{-- Meta Keywords (optional) --}}
-    <meta name="keywords" content="@yield('meta_keywords', $profile->meta_keywords ?? '')">
+    {{-- Meta Title (optional) --}}
+    <meta name="title" content="@yield('meta_title', $profile->meta_title ?? '')">
 
     {{-- Favicon --}}
     @if(!empty($profile?->favicon))

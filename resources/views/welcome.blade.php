@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('meta_description', '')
-@section('meta_keywords', '')
+@section('meta_title', '')
 @section('title')
     Home
 @endsection
@@ -32,5 +32,4 @@
         title="Map showing location (lat long)">
     </iframe>
 
-
-@endsection
+    @endsection

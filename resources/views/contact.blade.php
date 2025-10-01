@@ -1,7 +1,7 @@
 @extends('layout.base')
 
 @section('meta_description', '')
-@section('meta_keywords', '')
+@section('meta_title', '')
 @section('title')
   Contact
 @endsection

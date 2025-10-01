@@ -70,6 +70,15 @@ class ProductResource extends Resource
                 ->columnSpanFull()
                 ->maxLength(5000),
 
+            Forms\Components\TextInput::make('meta_title')
+                ->maxLength(70)
+                ->label('Meta Title'),
+
+            Forms\Components\Textarea::make('meta_description')
+                ->maxLength(160)
+                ->label('Meta Description'),
+
+
             // Single image upload
             Forms\Components\FileUpload::make('image')
                 ->label('Product Image')

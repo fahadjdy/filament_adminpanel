@@ -15,6 +15,8 @@ class Category extends Model
         'slug',
         'parent_id',
         'image', // single image
+        'meta_title',
+        'meta_description',
     ];
 
     // Auto-generate slug
@@ -45,5 +47,10 @@ class Category extends Model
     public function children()
     {
         return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
     }
 }

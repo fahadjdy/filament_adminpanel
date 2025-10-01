@@ -11,6 +11,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('category/{category}', [HomeController::class, 'category'])->name('category');
+
 Route::get('/contact', [HomeController::class,'contact'])->name('contact');
 Route::post('/inquiries', [InquiryController::class, 'store'])->name('inquiries.store');
 
